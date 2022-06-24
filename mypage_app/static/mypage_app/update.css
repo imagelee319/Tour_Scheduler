@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+.subheading{
+    color: orange;
+}
+
+#jeju{
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+#update_box{
+    height:300px;
+    font-family: 'Jua', sans-serif;
+    background-color: rgba(191, 176, 211,0.4);
+    width: 70%;
+    border-radius: 15px;
+    margin-left: 15%;
+}
+
+.form-control{
+    border-radius: 15px;
+    font-family: 'Jua', sans-serif;
+    width: 80%;
+}
+
+.mt-3{
+    margin-left: 32%;
+    padding-top: 3%;
+}
+
+#Btn{
+    font-family: 'Jua', sans-serif;
+    background-color: rgb(185, 152, 201);
+    border: 0;
+    border-radius: 20px;
+    margin-left: 67%;
+    margin-top: 10px;
+}
+
+#cnd{
+    float: left;
+    width: 200px;
+    height: 200px;
+    margin-top: 4%;
+    margin-left: 10%;
+    border-radius: 50%;
+}

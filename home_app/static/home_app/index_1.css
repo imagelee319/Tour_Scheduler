@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+
+/*=============== VARIABLES CSS ===============*/
+:root {
+  --header-height: 0;
+
+  /*========== Hover overlay ==========*/
+  --img-transition: 0.3s;
+  --img-hidden: hidden;
+  --img-scale: scale(1.1);
+}
+
+  /*=============== main_1 ===============*/
+.about__data {
+    float: right;
+    margin: 100px 20px;
+  }
+  
+  .about__container {
+    row-gap: 2.5rem;
+  }
+  
+  .about__description {
+    margin-bottom: var(--mb-2);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+  }
+  
+  .about__img {
+    display: flex;
+    column-gap: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .about__img-overlay {
+    overflow: var(--img-hidden);
+  }
+  
+  .about__img-one {
+    width: 200px;
+    height: 300px;
+  }
+  
+  .about__img-two {
+    width: 180px;
+    height: 400px;
+  }
+  
+  .about__img-one,
+  .about__img-two {
+    transition: var(--img-transition);
+  }
+  
+  .about__img-one:hover,
+  .about__img-two:hover {
+    transform: var(--img-scale);
+  }
+
+  .about__img-one {
+    width: 230px;
+  }
+  .about__img-two {
+    width: 290px;
+  }
+
+/*=============== main_2 ===============*/
+#recommend{
+    margin-top: 0;
+}
+
+#title{
+    text-align: center;
+}
+
+.section_title {
+    text-align: center;
+    padding: 100px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.slider {
+    position: relative;
+    left: 10%;
+    top: 30%;
+    width: 75%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.slider-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200%;
+    display: flex;
+    pointer-events: none;
+}
+.slider2 {
+    position: relative;
+    left: 10%;
+    top: 30%;
+    width: 75%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.slider-inner2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200%;
+    display: flex;
+    pointer-events: none;
+}
+
+.slider-item {
+    margin: 0 10px;
+    width: 300px;
+    height: 300px;
+    background-image: url('https://a.cdn-hotels.com/gdcs/production69/d1911/913619a9-f618-47db-b2a2-3ca277ad2226.jpg');
+    background-size: cover;
+}
+.slider-item:nth-child(2) {
+    background-image: url('https://i0.wp.com/blog.findmybucketlist.com/wp-content/uploads/2020/10/%EC%A0%9C%EC%A3%BC%EB%8F%84-2.jpg?resize=792%2C446&ssl=1');
+    background-size: cover;
+}
+.slider-item:nth-child(3) {
+    background-image: url('https://t2.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/wlQ/image/sgf9P6y5nFfb2MY_EJ-3R-wXDpg.jpg');
+    background-size: cover;
+}
+.slider-item:nth-child(4) {
+    background-image: url('https://t1.daumcdn.net/cfile/blog/998219395B78C34C1B');
+    background-size: cover;
+}
+.slider-item:nth-child(5) {
+    background-image: url('https://www.lottehotel.com/content/dam/lotte-hotel/lotte/jeju/overview/introduction/g-0807.jpg.thumb.768.768.jpg');
+    background-size: cover;
+}
+.slider-item:nth-child(6) {
+    background-image: url('https://post-phinf.pstatic.net/MjAyMDA1MThfMTg1/MDAxNTg5NzY3MTExODMx.1U91tjWL-pegGHgwEgFwCKiU8fN-3CPWYIJopuFo8hkg.m8IfFawxFfkd8tuQMy1FliBZf3RTDOTH-RzCcTEBDkYg.JPEG/image_7371252191589766881703.jpg?type=w1200');
+    background-size: cover;
+}
+.slider-item:nth-child(7) {
+    background-image: url('https://cdn.pixabay.com/photo/2022/01/11/03/38/jeju-island-6929634__340.jpg');
+    background-size: cover;
+  }
+.slider-item:nth-child(8) {
+    background-image: url('https://t1.daumcdn.net/liveboard/dailylife/c6ae89798329460497f2475aa802480f.JPG');
+    background-size: cover;
+  }
+.slider-item:nth-child(9) {
+    background-image: url('https://api.cdn.visitjeju.net/photomng/imgpath/201903/25/10df607e-564f-4c14-ae7b-c2461e8e54b4.JPG');
+    background-size: cover;
+  }
+.slider-item:nth-child(10) {
+    background-image: url('https://mblogthumb-phinf.pstatic.net/MjAyMTA0MjBfMTI4/MDAxNjE4ODg4NTEwNjc0.MI0w-e67kB2sNXijmrWdAT88e9Wgfx_2nK7aZGRr05Qg.XqtzXzIzlDBgd0MV-i54a-oWNL1DQXMrQ-I2_SiY6vcg.JPEG.hhome1/%EC%A0%9C%EC%A3%BC_%EB%AC%B4%EC%A7%80%EA%B0%9C%ED%95%B4%EC%95%88%EB%8F%84%EB%A1%9C_%EB%8F%84%EB%91%90%EB%B4%89_(1).jpg?type=w800');
+    background-size: cover;
+  }
+
+  /*=============== VIDEO ===============*/
+

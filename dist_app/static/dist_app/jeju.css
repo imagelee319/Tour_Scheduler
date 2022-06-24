@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+
+#title{
+    text-align: center;
+    margin-top: 80px;
+    font-family: 'Jua', sans-serif;
+}
+
+#img{
+    width: 270px;
+    height: 200px;
+}
+
+#jeju{
+    color: blueviolet;
+    font-size: 50px;
+}
+
+#album{
+    margin-left: 80px;
+    margin-bottom: 40px;
+}
+
+#back{
+    float: right;
+    margin-right: 30px;
+}
+
+.subheading{
+    color: orange;
+}
+
+#star{
+    font-size: 35px;
+    margin-top: 10px;
+}

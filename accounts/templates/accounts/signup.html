@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'accounts/login.css' %}">
+<!-- Page Header-->
+        <header class="masthead" style="background-image: url('https://www.popco.net/zboard/data/dica_forum_samsung/2015/07/27/147743295955b5c369685cd.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <span class="subheading">TODAY TOUR</span>
+                            <h2 id="jeju"> 떠나요 제주도 >_< </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+<div class="container my-3">
+    <form method="post" action="{% url 'accounts:signup' %}">
+        {% csrf_token %}
+        {% include "form_errors.html" %}
+        <div class="mb-3">
+            <label for="username">사용자 이름</label>
+            <input type="text" class="form-control" name="username" id="username"
+                   value="{{ form.username.value|default_if_none:'' }}">
+        </div>
+        <div class="mb-3">
+            <label for="password1">비밀번호</label>
+            <input type="password" class="form-control" name="password1" id="password1"
+                   value="{{ form.password1.value|default_if_none:'' }}">
+        </div>
+        <div class="mb-3">
+            <label for="password2">비밀번호 확인</label>
+            <input type="password" class="form-control" name="password2" id="password2"
+                   value="{{ form.password2.value|default_if_none:'' }}">
+        </div>
+        <div class="mb-3">
+            <label for="email">이메일</label>
+            <input type="text" class="form-control" name="email" id="email"
+                   value="{{ form.email.value|default_if_none:'' }}">
+        </div>
+        <button type="submit" class="btn btn-primary" id="Btn">생성하기</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,573 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <title>선의 거리 계산하기</title>
+    <style>
+.dot {overflow:hidden;float:left;width:12px;height:12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mini_circle.png');}
+.dotOverlay {position:relative;bottom:10px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;font-size:12px;padding:5px;background:#fff;}
+.dotOverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.number {font-weight:bold;color:#ee6152;}
+.dotOverlay:after {content:'';position:absolute;margin-left:-6px;left:50%;bottom:-8px;width:11px;height:8px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white_small.png')}
+.distanceInfo {position:relative;top:5px;left:5px;list-style:none;margin:0;}
+.distanceInfo .label {display:inline-block;width:50px;}
+.distanceInfo:after {content:none;}
+</style>
+</head>
+
+<link rel="stylesheet" href="{% static 'dist_app/index.css'%}">
+<!-- Page Header-->
+        <header class="masthead" style="background-image: url('https://r1.community.samsung.com/t5/image/serverpage/image-id/97013i0A48A54A0ABC0C2D/image-size/large?v=v2&px=999')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <span class="subheading">TODAY TOUR </span>
+                            <h2 id="star"> 제주도 푸른밤 그 별 아래 </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+<p id="dist"> 🐾 같이 걷자 제주올레길 🐾 </p>
+<div id="holder">
+
+    <div class="button" style="margin-right: 3%;">
+        <button class="btnText"><a href="{% url 'dist_app:index'%}">COURSE 1</a></button>
+        <div class="btnTwo">
+          <p class="btnText2">GO!</p>
+        </div>
+     </div>
+    
+     <div class="button" style="margin-right: 3%;">
+        <button class="btnText"><a href="{% url 'dist_app:index2'%}">COURSE 13</a></button>
+        <div class="btnTwo">
+            <p class="btnText2">GO!</p>
+        </div>
+     </div>
+
+     <div class="button" style="margin-right: 3%;">
+        <button class="btnText"><a href="{% url 'dist_app:index3'%}">COURSE 14-1</a></button>
+        <div class="btnTwo">
+            <p class="btnText2">GO!</p>
+        </div>
+     </div>
+</div>
+<!-- 지도를 표시할 div 입니다 -->
+
+<div id="map" style="width:50%;height:400px; margin: auto;"></div>
+<p id="add_text" style="margin-left: 28%;">
+    <em> ( 지도를 마우스로 클릭하면 선 그리기가 시작되고, 오른쪽 마우스를 클릭하면 선 그리기가 종료됩니다 )</em>
+</p>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=627103604d18d2289930b62ebcc65f7b"></script>
+
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+    mapOption = {
+        center: new kakao.maps.LatLng(33.32636792451527, 126.28398665835896), // 지도의 중심좌표
+        level: 7 // 지도의 확대 레벨
+    };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+var drawingFlag = false; // 선이 그려지고 있는 상태를 가지고 있을 변수입니다
+var moveLine; // 선이 그려지고 있을때 마우스 움직임에 따라 그려질 선 객체 입니다
+var clickLine // 마우스로 클릭한 좌표로 그려질 선 객체입니다
+var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
+var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
+
+// 지도에 클릭 이벤트를 등록합니다
+// 지도를 클릭하면 선 그리기가 시작됩니다 그려진 선이 있으면 지우고 다시 그립니다
+kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+    // 마우스로 클릭한 위치입니다
+    var clickPosition = mouseEvent.latLng;
+
+    // 지도 클릭이벤트가 발생했는데 선을 그리고있는 상태가 아니면
+    if (!drawingFlag) {
+
+        // 상태를 true로, 선이 그리고있는 상태로 변경합니다
+        drawingFlag = true;
+
+        // 지도 위에 선이 표시되고 있다면 지도에서 제거합니다
+        deleteClickLine();
+
+        // 지도 위에 커스텀오버레이가 표시되고 있다면 지도에서 제거합니다
+        deleteDistnce();
+
+        // 지도 위에 선을 그리기 위해 클릭한 지점과 해당 지점의 거리정보가 표시되고 있다면 지도에서 제거합니다
+        deleteCircleDot();
+
+        // 클릭한 위치를 기준으로 선을 생성하고 지도위에 표시합니다
+        clickLine = new kakao.maps.Polyline({
+            map: map, // 선을 표시할 지도입니다
+            path: [clickPosition], // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
+            strokeWeight: 3, // 선의 두께입니다
+            strokeColor: '#db4040', // 선의 색깔입니다
+            strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+            strokeStyle: 'solid' // 선의 스타일입니다
+        });
+
+        // 선이 그려지고 있을 때 마우스 움직임에 따라 선이 그려질 위치를 표시할 선을 생성합니다
+        moveLine = new kakao.maps.Polyline({
+            strokeWeight: 3, // 선의 두께입니다
+            strokeColor: '#db4040', // 선의 색깔입니다
+            strokeOpacity: 0.5, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+            strokeStyle: 'solid' // 선의 스타일입니다
+        });
+
+        // 클릭한 지점에 대한 정보를 지도에 표시합니다
+        displayCircleDot(clickPosition, 0);
+
+
+    } else { // 선이 그려지고 있는 상태이면
+
+        // 그려지고 있는 선의 좌표 배열을 얻어옵니다
+        var path = clickLine.getPath();
+
+        // 좌표 배열에 클릭한 위치를 추가합니다
+        path.push(clickPosition);
+
+        // 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
+        clickLine.setPath(path);
+
+        var distance = Math.round(clickLine.getLength());
+        displayCircleDot(clickPosition, distance);
+    }
+});
+
+// 지도에 마우스무브 이벤트를 등록합니다
+// 선을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 선의 위치를 동적으로 보여주도록 합니다
+kakao.maps.event.addListener(map, 'mousemove', function (mouseEvent) {
+
+    // 지도 마우스무브 이벤트가 발생했는데 선을 그리고있는 상태이면
+    if (drawingFlag){
+
+        // 마우스 커서의 현재 위치를 얻어옵니다
+        var mousePosition = mouseEvent.latLng;
+
+        // 마우스 클릭으로 그려진 선의 좌표 배열을 얻어옵니다
+        var path = clickLine.getPath();
+
+        // 마우스 클릭으로 그려진 마지막 좌표와 마우스 커서 위치의 좌표로 선을 표시합니다
+        var movepath = [path[path.length-1], mousePosition];
+        moveLine.setPath(movepath);
+        moveLine.setMap(map);
+
+        var distance = Math.round(clickLine.getLength() + moveLine.getLength()), // 선의 총 거리를 계산합니다
+            content = '<div class="dotOverlay distanceInfo">총거리 <span class="number">' + distance + '</span>m</div>'; // 커스텀오버레이에 추가될 내용입니다
+
+        // 거리정보를 지도에 표시합니다
+        showDistance(content, mousePosition);
+    }
+});
+
+// 지도에 마우스 오른쪽 클릭 이벤트를 등록합니다
+// 선을 그리고있는 상태에서 마우스 오른쪽 클릭 이벤트가 발생하면 선 그리기를 종료합니다
+kakao.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
+
+    // 지도 오른쪽 클릭 이벤트가 발생했는데 선을 그리고있는 상태이면
+    if (drawingFlag) {
+
+        // 마우스무브로 그려진 선은 지도에서 제거합니다
+        moveLine.setMap(null);
+        moveLine = null;
+
+        // 마우스 클릭으로 그린 선의 좌표 배열을 얻어옵니다
+        var path = clickLine.getPath();
+
+        // 선을 구성하는 좌표의 개수가 2개 이상이면
+        if (path.length > 1) {
+
+            // 마지막 클릭 지점에 대한 거리 정보 커스텀 오버레이를 지웁니다
+            if (dots[dots.length-1].distance) {
+                dots[dots.length-1].distance.setMap(null);
+                dots[dots.length-1].distance = null;
+            }
+
+            var distance = Math.round(clickLine.getLength()), // 선의 총 거리를 계산합니다
+                content = getTimeHTML(distance); // 커스텀오버레이에 추가될 내용입니다
+
+            // 그려진 선의 거리정보를 지도에 표시합니다
+            showDistance(content, path[path.length-1]);
+
+        } else {
+
+            // 선을 구성하는 좌표의 개수가 1개 이하이면
+            // 지도에 표시되고 있는 선과 정보들을 지도에서 제거합니다.
+            deleteClickLine();
+            deleteCircleDot();
+            deleteDistnce();
+
+        }
+
+        // 상태를 false로, 그리지 않고 있는 상태로 변경합니다
+        drawingFlag = false;
+    }
+});
+
+// 클릭으로 그려진 선을 지도에서 제거하는 함수입니다
+function deleteClickLine() {
+    if (clickLine) {
+        clickLine.setMap(null);
+        clickLine = null;
+    }
+}
+
+// 마우스 드래그로 그려지고 있는 선의 총거리 정보를 표시하거
+// 마우스 오른쪽 클릭으로 선 그리가 종료됐을 때 선의 정보를 표시하는 커스텀 오버레이를 생성하고 지도에 표시하는 함수입니다
+function showDistance(content, position) {
+
+    if (distanceOverlay) { // 커스텀오버레이가 생성된 상태이면
+
+        // 커스텀 오버레이의 위치와 표시할 내용을 설정합니다
+        distanceOverlay.setPosition(position);
+        distanceOverlay.setContent(content);
+
+    } else { // 커스텀 오버레이가 생성되지 않은 상태이면
+
+        // 커스텀 오버레이를 생성하고 지도에 표시합니다
+        distanceOverlay = new kakao.maps.CustomOverlay({
+            map: map, // 커스텀오버레이를 표시할 지도입니다
+            content: content,  // 커스텀오버레이에 표시할 내용입니다
+            position: position, // 커스텀오버레이를 표시할 위치입니다.
+            xAnchor: 0,
+            yAnchor: 0,
+            zIndex: 3
+        });
+    }
+}
+
+// 그려지고 있는 선의 총거리 정보와
+// 선 그리가 종료됐을 때 선의 정보를 표시하는 커스텀 오버레이를 삭제하는 함수입니다
+function deleteDistnce () {
+    if (distanceOverlay) {
+        distanceOverlay.setMap(null);
+        distanceOverlay = null;
+    }
+}
+
+// 선이 그려지고 있는 상태일 때 지도를 클릭하면 호출하여
+// 클릭 지점에 대한 정보 (동그라미와 클릭 지점까지의 총거리)를 표출하는 함수입니다
+function displayCircleDot(position, distance) {
+
+    // 클릭 지점을 표시할 빨간 동그라미 커스텀오버레이를 생성합니다
+    var circleOverlay = new kakao.maps.CustomOverlay({
+        content: '<span class="dot"></span>',
+        position: position,
+        zIndex: 1
+    });
+
+    // 지도에 표시합니다
+    circleOverlay.setMap(map);
+
+    if (distance > 0) {
+        // 클릭한 지점까지의 그려진 선의 총 거리를 표시할 커스텀 오버레이를 생성합니다
+        var distanceOverlay = new kakao.maps.CustomOverlay({
+            content: '<div class="dotOverlay">거리 <span class="number">' + distance + '</span>m</div>',
+            position: position,
+            yAnchor: 1,
+            zIndex: 2
+        });
+
+        // 지도에 표시합니다
+        distanceOverlay.setMap(map);
+    }
+
+    // 배열에 추가합니다
+    dots.push({circle:circleOverlay, distance: distanceOverlay});
+}
+
+// 클릭 지점에 대한 정보 (동그라미와 클릭 지점까지의 총거리)를 지도에서 모두 제거하는 함수입니다
+function deleteCircleDot() {
+    var i;
+
+    for ( i = 0; i < dots.length; i++ ){
+        if (dots[i].circle) {
+            dots[i].circle.setMap(null);
+        }
+
+        if (dots[i].distance) {
+            dots[i].distance.setMap(null);
+        }
+    }
+
+    dots = [];
+}
+
+// 마우스 우클릭 하여 선 그리기가 종료됐을 때 호출하여
+// 그려진 선의 총거리 정보와 거리에 대한 도보, 자전거 시간을 계산하여
+// HTML Content를 만들어 리턴하는 함수입니다
+function getTimeHTML(distance) {
+
+    // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
+    var walkkTime = distance / 67 | 0;
+    var walkHour = '', walkMin = '';
+
+    // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
+    if (walkkTime > 60) {
+        walkHour = '<span class="number">' + Math.floor(walkkTime / 60) + '</span>시간 '
+    }
+    walkMin = '<span class="number">' + walkkTime % 60 + '</span>분'
+
+    // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
+    var bycicleTime = distance / 227 | 0;
+    var bycicleHour = '', bycicleMin = '';
+
+    // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
+    if (bycicleTime > 60) {
+        bycicleHour = '<span class="number">' + Math.floor(bycicleTime / 60) + '</span>시간 '
+    }
+    bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분'
+
+    // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
+    var content = '<ul class="dotOverlay distanceInfo">';
+    content += '    <li>';
+    content += '        <span class="label">총거리</span><span class="number">' + distance + '</span>m';
+    content += '    </li>';
+    content += '    <li>';
+    content += '        <span class="label">도보</span>' + walkHour + walkMin;
+    content += '    </li>';
+    content += '    <li>';
+    content += '        <span class="label">자전거</span>' + bycicleHour + bycicleMin;
+    content += '    </li>';
+    content += '</ul>'
+
+    return content;
+}
+
+
+var startSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png', // 출발 마커이미지의 주소입니다
+    startSize = new kakao.maps.Size(50, 45), // 출발 마커이미지의 크기입니다
+    startOption = {
+        offset: new kakao.maps.Point(15, 43) // 출발 마커이미지에서 마커의 좌표에 일치시킬 좌표를 설정합니다 (기본값은 이미지의 가운데 아래입니다)
+    };
+
+// 출발 마커 이미지를 생성합니다
+var startImage = new kakao.maps.MarkerImage(startSrc, startSize, startOption);
+
+var startDragSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_drag.png', // 출발 마커의 드래그 이미지 주소입니다
+    startDragSize = new kakao.maps.Size(50, 64), // 출발 마커의 드래그 이미지 크기입니다
+    startDragOption = {
+        offset: new kakao.maps.Point(15, 54) // 출발 마커의 드래그 이미지에서 마커의 좌표에 일치시킬 좌표를 설정합니다 (기본값은 이미지의 가운데 아래입니다)
+    };
+
+// 출발 마커의 드래그 이미지를 생성합니다
+var startDragImage = new kakao.maps.MarkerImage(startDragSrc, startDragSize, startDragOption);
+
+// 출발 마커가 표시될 위치입니다
+var startPosition = new kakao.maps.LatLng(33.33367304467781,126.25597395039351);
+
+// 출발 마커를 생성합니다
+var startMarker = new kakao.maps.Marker({
+    map: map, // 출발 마커가 지도 위에 표시되도록 설정합니다
+    position: startPosition,
+    draggable: true, // 출발 마커가 드래그 가능하도록 설정합니다
+    image: startImage // 출발 마커이미지를 설정합니다
+});
+
+// 출발 마커에 dragstart 이벤트를 등록합니다
+kakao.maps.event.addListener(startMarker, 'dragstart', function() {
+    // 출발 마커의 드래그가 시작될 때 마커 이미지를 변경합니다
+    startMarker.setImage(startDragImage);
+});
+
+// 출발 마커에 dragend 이벤트를 등록합니다
+kakao.maps.event.addListener(startMarker, 'dragend', function() {
+     // 출발 마커의 드래그가 종료될 때 마커 이미지를 원래 이미지로 변경합니다
+    startMarker.setImage(startImage);
+});
+
+var arriveSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png', // 도착 마커이미지 주소입니다
+arriveSize = new kakao.maps.Size(50, 45), // 도착 마커이미지의 크기입니다
+arriveOption = {
+    offset: new kakao.maps.Point(15, 43) // 도착 마커이미지에서 마커의 좌표에 일치시킬 좌표를 설정합니다 (기본값은 이미지의 가운데 아래입니다)
+};
+
+// 도착 마커 이미지를 생성합니다
+var arriveImage = new kakao.maps.MarkerImage(arriveSrc, arriveSize, arriveOption);
+
+var arriveDragSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_drag.png', // 도착 마커의 드래그 이미지 주소입니다
+    arriveDragSize = new kakao.maps.Size(50, 64), // 도착 마커의 드래그 이미지 크기입니다
+    arriveDragOption = {
+        offset: new kakao.maps.Point(15, 54) // 도착 마커의 드래그 이미지에서 마커의 좌표에 일치시킬 좌표를 설정합니다 (기본값은 이미지의 가운데 아래입니다)
+    };
+
+// 도착 마커의 드래그 이미지를 생성합니다
+var arriveDragImage = new kakao.maps.MarkerImage(arriveDragSrc, arriveDragSize, arriveDragOption);
+
+// 도착 마커가 표시될 위치입니다
+var arrivePosition = new kakao.maps.LatLng(33.30696732802056, 126.28784702919545);
+
+// 도착 마커를 생성합니다
+var arriveMarker = new kakao.maps.Marker({
+    map: map, // 도착 마커가 지도 위에 표시되도록 설정합니다
+    position: arrivePosition,
+    draggable: true, // 도착 마커가 드래그 가능하도록 설정합니다
+    image: arriveImage // 도착 마커이미지를 설정합니다
+});
+
+// 도착 마커에 dragstart 이벤트를 등록합니다
+kakao.maps.event.addListener(arriveMarker, 'dragstart', function() {
+    // 도착 마커의 드래그가 시작될 때 마커 이미지를 변경합니다
+    arriveMarker.setImage(arriveDragImage);
+});
+
+// 도착 마커에 dragend 이벤트를 등록합니다
+kakao.maps.event.addListener(arriveMarker, 'dragend', function() {
+     // 도착 마커의 드래그가 종료될 때 마커 이미지를 원래 이미지로 변경합니다
+    arriveMarker.setImage(arriveImage);
+});
+
+// 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다
+var positions = [
+    {
+        content: '<div>1. 저지예술마을</div>',
+        latlng: new kakao.maps.LatLng(33.333663868309245, 126.25594717642653)
+    },
+
+    {
+        content: '<div>2. 강정동산</div>',
+        latlng: new kakao.maps.LatLng(33.33361999457958, 126.276757842304)
+    },
+   {
+        content: '<div>3. 저지곶자왈</div>',
+        latlng: new kakao.maps.LatLng(33.33361999457958, 126.276757842304)
+    },
+   {
+        content: '<div>4. 문도지오름</div>',
+        latlng: new kakao.maps.LatLng(33.32618533180972, 126.29462065831164)
+    },
+   {
+        content: '<div>5.오설록차밭</div>',
+        latlng: new kakao.maps.LatLng(33.30696732802056, 126.28784702919545)
+    },
+
+];
+
+for (var i = 0; i < positions.length; i ++) {
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng // 마커의 위치
+    });
+
+    // 마커에 표시할 인포윈도우를 생성합니다
+    var infowindow = new kakao.maps.InfoWindow({
+        content: positions[i].content // 인포윈도우에 표시할 내용
+    });
+
+    // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+    // 이벤트 리스너로는 클로저를 만들어 등록합니다
+    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+}
+
+// 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+function makeOverListener(map, marker, infowindow) {
+    return function() {
+        infowindow.open(map, marker);
+    };
+}
+
+// 인포윈도우를 닫는 클로저를 만드는 함수입니다
+function makeOutListener(infowindow) {
+    return function() {
+        infowindow.close();
+    };
+}
+</script>
+<img src="https://www.jejuolle.org/trail/kor/images/sub_course/sub_vmap_14-1.jpg" alt="코스14-1">
+<hr/>
+<link rel="stylesheet" href="{% static 'dist_app/index.css'%}">
+<div id="recommendation">
+    <section style="margin: 10px;">
+        <fieldset id="fieldset" style="width: 75%; border-radius: 5px; padding: 5px; border:5px solid #9dcde3; background-color:#ffffff; margin-left: 15%;">
+        <legend id="jeju_text" style="width: 98%; margin-left:10px;background-color:#9dcde3; padding-left:10px; padding-top:5px; padding-right:120px; padding-bottom:5px; ; color:white; border-radius:15px; font-size:40px;" ><b> &emsp;&emsp;JEJU ISLAND</b></legend><br>
+        <input type="radio" name="radio" value="제주시" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/jeju/';"> 제주시 &emsp;
+        <input type="radio" name="radio" value="애월" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/aewol/';"> 애월 &emsp;
+        <input type="radio" name="radio" value="한림" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/hanlim/';"> 한림 &emsp;
+        <input type="radio" name="radio" value="한경" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/hankyung/';"> 한경 &emsp;
+        <input type="radio" name="radio" value="대정" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/daejung/';"> 대정 &emsp;
+        <input type="radio" name="radio" value="안덕" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/andeok/';"> 안덕 &emsp;
+        <input type="radio" name="radio" value="중문" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/jungmun/';" > 중문 &emsp;
+        <input type="radio" name="radio" value="서귀포시" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/seogwipo/';"> 서귀포시 &emsp;
+        <input type="radio" name="radio" value="남원" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/namwon/';"> 남원 &emsp;
+        <input type="radio" name="radio" value="표선" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/pyosun/';"> 표선 &emsp;
+        <input type="radio" name="radio" value="성산" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/seongsan/';" > 성산 &emsp;
+        <input type="radio" name="radio" value="구좌" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/gujwa/';"> 구좌 &emsp;
+        <input type="radio" name="radio" value="조천" OnClick="window.location.href='http://127.0.0.1:8000/dist_app/jocheon/';"> 조천 &emsp;
+        </fieldset>
+    </section>
+
+<br>
+</div>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'scripts.js' %}"></script>
+
+
+
+
+
+{% endblock %}

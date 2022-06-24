@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<header class="masthead" style="background-image: url('https://t1.daumcdn.net/cfile/tistory/2314D84754D09D2F3F');">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <span class="subheading" style="color: orange; font-size: 50px;" >welcome</span>
+                            <h2 style="font-size: 80px;">TODAY TOUR</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+<link rel="stylesheet" href="{% static 'home_app/index.css'%}">
+    <p id="title"> 내가 보고싶은 <span id="jeju">제주</span>는 </p>
+    
+    <div class="section">
+        <input type="radio" name="slide" id="slide01" checked>
+        <input type="radio" name="slide" id="slide02">
+        <input type="radio" name="slide" id="slide03">
+        <div class="slidewrap">
+            
+    <ul class="slidelist">
+        <!-- 슬라이드 영역 -->
+        <li class="slideitem">
+            <a>
+                <div class="textbox">
+                    <h2 id="jeju_text"> 천지연폭포 </h2>
+                    <p id="jeju_detail">하늘과 땅이 만나서 이룬 연못 </p>
+                </div>
+                    <img id="img" src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSE1TRa3ZWmyZjTnBg5BEDQEF8abQc7ICRKz3ftQH2voDODDVuLYT3OzBVdRJLUmIAbuzYyg_KOg7mya-u9DPQ1tQ">
+            </a>
+        </li>
+    
+        <li class="slideitem">
+            <a>
+                <div class="textbox">
+                    <h2 id="jeju_text">카멜리아 힐</h2>
+                    <p id="jeju_detail">일년내내 운영되는 유서깊은 식물원</p>
+                </div>
+                    <img id="img" src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTemRm0lWdSASqgGTQlhwRXpisYphpmExNoYudJ4coA0TzCZ-duq3m_Hn6ouucRLuBVp7TEAeC-dgubjYba_qBMjg">
+            </a>
+        </li>
+
+                
+        <li class="slideitem">
+            <a>
+                <div class="textbox">
+                    <h2 id="jeju_text">섭지코지</h2>
+                    <p id="jeju_detail">등대가 있는 아름다운 해안 지역</p>
+                </div>
+                    <img id="img" src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcT06bt0auaG7hh-5Ba69IqWFX7sbg9xx-w3uFkN8Lkr4AmGe_jCAGRmkqfN02jwFWRzw17gtbR9Su4SMQ3VGAyb8g">
+            </a>
+        </li>
+    
+    </ul>
+    
+    <!-- 페이징 -->
+    <ul class="slide-pagelist">
+        <li><label for="slide01"></label></li>
+        <li><label for="slide02"></label></li>
+        <li><label for="slide03"></label></li>
+    </ul>
+    </div>
+    </div>
+        <script src="{% static 'home_app.js' %}"></script>
+
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'scripts.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'board/index.css' %}">
+<header class="masthead" style="background-image: url('http://wetravel.cafe24.com/data/editor/1808/20180802112254_c4835f6ce5c51f178656a5ecd3471d53_d9c1.png')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+							<span class="subheading">TODAY TOUR</span>
+                            <h2 id="ocean"> 바다의 속삭임이 좋아요 </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+<div class="container" style="max-width:500px;">
+	<form method="POST">
+	  {% csrf_token %}
+	  {% bootstrap_form boardForm %}
+	  <input class="btn btn-dark rounded-pill col-12" type="submit" value="수정하기" onclick="location.href='/edit/{{board.pk}}/'">
+  </form>
+</div>
+
+{% endblock %}

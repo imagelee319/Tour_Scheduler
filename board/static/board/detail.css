@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+.subheading{
+	color: orange;
+}
+
+#ocean{
+	font-size: 35px;
+	margin-top: 10px;
+}
+
+#home{
+	font-family: 'Jua', sans-serif;
+	text-align: left;
+	margin-left: -74%;
+}
+
+body{
+	font-family: 'Jua', sans-serif;
+}
+
+
+.board_for_read {
+	width: 1200px;
+	background-color: white;
+	margin-left: -75%;
+}
+
+.td_title {
+	background-color: rgba(192, 202, 245, 0.5);
+	text-align: center;
+	height:30px;
+}
+
+.content {
+    max-width:500px;
+    margin: auto;
+    padding:10px;
+}
+
+.reply_content {
+	color: black;
+	text-align:right;
+	margin-right: -75%;
+
+}
+
+.reply_content .reply{
+	border-radius: 0.5em;
+	display: block;
+	margin: 4px;
+	padding: 3px 10px;
+}
+
+td{
+	border: 0.5px solid;
+}
+		
+#title {
+	height: 32px;
+	width: 100%;
+	border-radius: 0.5em;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	background: none;
+}
+
+textarea {
+	width: 100%;
+    font-family: inherit;
+    font-size: 100%;
+	resize: none;
+	border-radius: 0.5em;
+	padding-block: 10px;
+	border: 0px;
+	background: none;
+}
+
+
+
+
+

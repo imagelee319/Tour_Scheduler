@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+.subheading{
+	color: orange;
+}
+		
+#ocean{
+	font-size: 35px;
+	margin-top: 10px;
+}
+
+#home{
+	font-family: 'Jua', sans-serif;
+	text-align: left;
+	margin-left: -60%;
+}
+body{
+	font-family: 'Jua', sans-serif;
+}
+.content {
+    max-width:500px;
+    margin: auto;
+    padding:10px;
+}
+
+.board_for_read {
+	margin-left: -70%;
+	width: 1200px;
+	background-color:#f1f1f1;
+	text-align: left;
+	line-height: 1.5;
+}
+
+
+#title {
+	height: 32px;
+	width: 100%;
+	border-radius: 0.5em;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+textarea {
+	width: 100%;
+    font-family: inherit;
+    font-size: 100%;
+	resize: none;
+	padding-block: 10px;
+	border: 0px;
+}
+
+.td_title {
+	background-color: none;
+	text-align: center;
+	padding: 10px;
+	font-weight: bold;
+	border-right: 1px solid #036;
+}
+
+
+#save{
+	text-align: right;
+	margin-top: 10px;
+	margin-right: -57%;
+}
+
+#save1{
+	border:0; 
+	outline:0;
+	color: white;
+	border-radius: 30px;
+	width: 70px;
+}
+#td{
+	width: 1050px;
+	padding: 10px;
+	vertical-align: top;
+	background-color: rgba(192, 202, 245, 0.3);
+	border-radius: 10px;
+}
+
+#sj{
+	margin-left: -60%;
+	width: 1000px;
+}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'mypage_app/mypage.css'%}">
+<!-- Page Header-->
+        <header class="masthead" style="background-image: url('https://www.popco.net/zboard/data/dica_forum_samsung/2015/07/27/147743295955b5c369685cd.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                             <span class="subheading">TODAY TOUR</span>
+                            <h2 id="jeju"> 떠나요 제주도 >_< </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+<h1 align="middle">{{ user.username }} 님 안녕하세요!</h1>
+<br>
+
+<div id="all">
+    <div id="info">
+        <h2 id="title">기본정보</h2>
+        <br>
+        <div id="idpw">
+            <a> 아이디 :  {{user}} </a>
+        </div>
+            <br>
+        <div id="idpw"> 
+            <a> 이메일 :  {{user.email}} </a>
+        </div>
+        <br>
+        <button id="Btn" class="btn btn-primary"><a href="{% url 'mypage_app:update'%}">계정수정</a></button>
+    </div>
+
+<div id="post_table">
+    <h2 id="title">내가 작성한 게시물</h2>
+    <div style="height:280px;">
+        <table class="board" style="width:1200;">
+            <thead>
+                <tr class="header" id="header">
+                    <th style="width:10%; text-align: center;  border-right: 1px solid;">순번</th>
+                    <th style="width:60%; text-align:center;  border-right: 1px solid;">제목</th>
+                    <th style="width:30%; text-align: center;">작성일자</th>
+                </tr>
+                {%for board in boards %}
+                    {% if board.author == user %}
+                <tr id="index">
+                    <td style="text-align:center;  border-right: 1px solid;">{{ forloop.counter }}</td>
+                    <td style="border-right: 1px solid;"><a>{{ board.title }}</a></td>
+                    <td>{{ board.pub_date|date:'Y-m-d' }}</td>
+                </tr>
+                    {% endif%}
+            {%endfor%}
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'scripts.js' %}"></script>
+
+{% endblock %}

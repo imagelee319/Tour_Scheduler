@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+
+
+h3{
+    font-size: 40px;
+    color: rgb(46, 39, 130);
+    font-family: 'Jua', sans-serif;
+    margin-top: 20 px;
+}
+
+.text2 {
+
+    font-family: 'Jua', sans-serif;
+    font-size: 21px;
+
+  }
+
+.text {
+
+    font-family: 'Jua', sans-serif;
+    font-size: 21px;
+    margin-bottom: 20px;
+  }
+
+span {
+
+    font-family: 'Jua', sans-serif;
+    font-size: 18px;
+  }
+#during {
+    font-family: 'Jua', sans-serif;
+    font-size: 18px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+  --button-color: #ffffff;
+  --button-bg-color: #0d6efe;
+  --button-hover-bg-color: #00e1ff;
+}
+
+button{
+    margin: 0;
+    padding: 0.5rem 1rem;
+
+    font-family: "Jua", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+
+    display: inline-block;
+    width: auto;
+
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+button:active,
+button:hover,
+button:focus {
+  background: var(--button-hover-bg-color);
+  outline: 0;
+}
+button:disabled {
+  opacity: 0.5;
+}
+
+.schedule_input {
+    border: thick double;
+    border-radius: 10px;
+    width: 600px;
+    text-align: center;
+    padding: 2em;
+    margin-left:420px;
+
+
+    }
+
+
+.subheading {
+    color: orange;
+}
+
+#star {
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+#pic {
+    float: right;
+    width:80px;
+    height:100px;
+}
+
+#schedule_input{
+    border = solid;
+}
+
+table{
+    margin: auto;
+    border: 1px solid black;
+}
+
+td, th{
+    border: 1px solid gray;
+    padding: 5px;
+    text-align: center;
+}

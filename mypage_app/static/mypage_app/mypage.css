@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+.subheading{
+    color: orange;
+}
+
+#jeju{
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+h1{
+    font-family: 'Jua', sans-serif;
+}
+
+#all{
+    margin-left: 3%;
+    font-family: 'Jua', sans-serif;
+}
+
+#info{
+    float: left;
+    background-color: rgba(191, 176, 211,0.4);
+    border-radius: 10px;
+    width: 30%;
+    height: 300px;
+    margin-left: 20px;
+}
+
+#title{
+    font-family: 'Jua', sans-serif;
+    text-align: center;
+    padding-top: 30px;
+    color: rgb(63, 63, 63);
+}
+
+#idpw{
+    background-color: white;
+    border-radius: 15px;
+    width: 80%;
+    margin-left: 50px;
+    text-align: center;
+    height: 30px;
+}
+
+#Btn{
+    font-family: 'Jua', sans-serif;
+    background-color: rgb(185, 152, 201);
+    border: 0;
+    border-radius: 20px;
+    margin-left: 70%;
+}
+
+.board{
+    background-color: rgb(185, 152, 201);
+    width:800px;
+    margin-left: 4%;
+}
+
+#post_table{
+    float: left;
+    margin-left: 5%;
+    background-color: rgba(191, 176, 211,0.4);
+    border-radius: 10px;
+    width: 60%;
+    height: 300px;
+}
+
+#index{
+    background-color: white;
+}
+
+td{
+    text-align: center;
+}
+
+#index:nth-of-type(n+7) {
+    display: none;
+} 

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'board/index.css' %}">
+<header class="masthead" style="background-image: url('http://wetravel.cafe24.com/data/editor/1808/20180802112254_c4835f6ce5c51f178656a5ecd3471d53_d9c1.png')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+							<span class="subheading" style="color: orange;">TODAY TOUR</span>
+                            <h2 id="ocean" style="font-size:35px; margin-top: 10px;"> 바다의 속삭임이 좋아요 </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+<div class="content">
+        <div class="header">
+            <h2 id="h2"> 혼자 옵서예 <span id="injeju">IN JEJU</span> </h2>
+        </div>
+        <div id="write">
+            <a href="{% url 'board:write' %}" id="text_write" style="font-size:15px;"><u><b>글쓰기</b></u></a>
+        </div>
+
+        <div style="height:280px;">
+            <table class="board" style="width:1200;">
+                <thead>
+                    <tr class="header" id="header">
+                        <th style="width:10%;">순번</th>
+                        <th style="width:60%">제목</th>
+                        <th style="width:20%">작성자</th>
+                        <th style="width:30%">작성일자</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if board_list %}
+                    {% for data in board_list %}
+                    <tr class="{% cycle '' 'even_bgcolor' %}">
+                        <td style="text-align:center;">{{ forloop.counter }}</td>
+                        <td>
+                            <a href="{% url 'board:detail' data.id %}">
+                                {{ data.title }}
+                            </a>
+                        </td>
+                        <td>{{ data.author }}</td>
+                        <td>{{ data.pub_date|date:'Y-m-d' }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>작성된 게시글이 없습니다.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="text-align:center">
+            <div class="pagination">
+                <div style="width:40%; margin: 5px;">
+                {% if board_list.has_previous %}
+                    <a class="abutton" href="?page=1" style="font-size: 15px; background-color:white;"><u>맨앞으로</u></a>  &nbsp;
+                    <a class="abutton" href="?page={{ board_list.previous_page_number }}" style="font-size: 15px; background-color:white;"><u>이전</u></a>
+                {% endif %}
+                </div>
+
+                <div style="width:30%; margin: 5px; font-size:25px; font-family: 'Jua', sans-serif;">
+                {% for page in board_list.paginator.page_range %}
+                    {% if page >= board_list.number|add:-2 and page <= board_list.number|add:2 %}
+                    <span class="{% if page == board_list.number %}current{% endif %}">
+                        <a id="num" href="?page={{ page }}">{{ page}}</a>
+                    </span>
+                    {% elif page >= board_list.number|add:-3 and page <= board_list.number|add:3 %}
+                        ..
+                    {% endif %}
+                {% endfor %}
+                </div>
+
+                <div style="width:35%; margin: 5px;">
+                {% if board_list.has_next %}
+                    <a class="abutton" href="?page={{ board_list.next_page_number }}"  style="font-size: 15px; background-color:white;"><u>다음</u></a>  &nbsp;
+                    <a class="abutton" href="?page={{ board_list.paginator.num_pages }}"  style="font-size: 15px; background-color:white;"><u>맨뒤로</u></a>
+                {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

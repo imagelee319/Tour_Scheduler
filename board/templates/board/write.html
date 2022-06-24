@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'board/write.css' %}">
+
+<header class="masthead" style="background-image: url('http://wetravel.cafe24.com/data/editor/1808/20180802112254_c4835f6ce5c51f178656a5ecd3471d53_d9c1.png')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+							<span class="subheading">TODAY TOUR</span>
+                            <h2 id="ocean"> 바다의 속삭임이 좋아요 </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+<div class="content">
+		<form action="{% url 'board:write_board' %}" method="post">
+		{% csrf_token %}
+
+		<div id="home">
+			<a href="{% url 'board:index' %}"> <u>> Home</u></a>
+		</div>
+		<br>
+<div id="sj">
+	<label> 제목 </label>
+	<input id="td" type="text" name="title" id="title" value="{{ board.title }}" style="border: 0;"/> <br><br>
+	<label> 내용 </label>
+	<textarea id="td" name="detail" id="detail" rows="10">{{ board.content }}</textarea>
+</div>
+
+		<div id="save">
+			<input id="save1" type="submit" value="저장" style="background-color:rgb(46, 39, 130);">
+		</div>
+		</form>
+    </div>
+
+	<script src="{% static 'write.js' %}"></script>
+{% endblock %}

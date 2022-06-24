@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<header class="masthead" style="background-image: url('https://t1.daumcdn.net/cfile/tistory/2314D84754D09D2F3F');">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <span class="subheading" style="color: orange; font-size: 50px;" >welcome</span>
+                            <h2 style="font-size: 80px;">TODAY TOUR</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+<link rel="stylesheet" href="{% static 'home_app/index_1.css'%}">
+
+<!--==================== main_1 ====================-->
+<section class="about section" id="about">
+    <div class="about__container container grid">
+        <div class="about__data">
+            <h2 class="section__title about__title"> JEJU ISLAND</h2>
+            <p class="about__description">섬 전체가 하나의 거대한 관광자원 <br>
+                에메랄드빛 물빛이 인상적인 협재 해수욕장은 제주 대표 여행지며, <br>
+                파도가 넘보는 주상절리와 바다 위 산책로인 용머리 해안은 제주에서만 볼 수 있는 천혜의 자연경관
+            </p>
+        </div>
+
+        <div class="about__img">
+            <div class="about__img-overlay">
+                <img src="https://a.cdn-hotels.com/gdcs/production123/d1230/d3ed36fc-c77c-4843-9b5e-7a5bfe80151d.jpg?impolicy=fcrop&w=800&h=533&q=medium" alt="" class="about__img-one">
+            </div>
+
+            <div class="about__img-overlay">
+                <img src="https://r1.community.samsung.com/t5/image/serverpage/image-id/1513266i12C437854817E97D/image-size/large?v=v2&px=999" alt="" class="about__img-two">
+            </div>
+        </div>
+    </div>
+</section>
+
+<br><br><br><hr/>
+
+<!--==================== main_2 ====================-->
+<section class="recommend section" id="recommend">
+    <h2 id="title"> Best <br> JEJU Places</h2>
+    <br>
+    <div class="slider">
+        <div class="slider-inner">
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+            <div class="slider-item"></div>
+        </div>
+    </div>
+</section>
+
+<br><br><br><hr/>
+
+<!--==================== main_3 ====================-->
+<section class="video section">
+    <h2 id="title">Video Tour</h2>
+    <div class="video__container container">
+        <div class="video__content">
+            <p align='middle'><iframe id="video" width="960" height="500" src="https://www.youtube.com/embed/YfY7AqC3FnM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'home_app/home_app.js'%}"></script>
+
+<!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'scripts.js' %}"></script>
+
+{% endblock %}

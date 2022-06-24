@@ -1,0 +1,376 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+<!-- Page Header-->
+        <header class="masthead" style="background-image: url('https://r1.community.samsung.com/t5/image/serverpage/image-id/97013i0A48A54A0ABC0C2D/image-size/large?v=v2&px=999')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <span class="subheading">TODAY TOUR </span>
+                            <h2 id="star"> 제주도 푸른밤 그 별 아래 </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+<link rel="stylesheet" href="{% static 'dist_app/jeju.css'%}">
+
+
+
+    <style>
+.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+.map_wrap {position:relative;width:90%;height:500px;}
+#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+.bg_white {background:#fff;}
+#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+#menu_wrap .option{text-align: center;}
+#menu_wrap .option p {margin:10px 0;}
+#menu_wrap .option button {margin-left:5px;}
+#placesList li {list-style: none;}
+#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+#placesList .item span {display: block;margin-top:4px;}
+#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList .item .info{padding:10px 0 10px 55px;}
+#placesList .info .gray {color:#8a8a8a;}
+#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList .info .tel {color:#009900;}
+#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#placesList .item .marker_1 {background-position: 0 -10px;}
+#placesList .item .marker_2 {background-position: 0 -56px;}
+#placesList .item .marker_3 {background-position: 0 -102px}
+#placesList .item .marker_4 {background-position: 0 -148px;}
+#placesList .item .marker_5 {background-position: 0 -194px;}
+#placesList .item .marker_6 {background-position: 0 -240px;}
+#placesList .item .marker_7 {background-position: 0 -286px;}
+#placesList .item .marker_8 {background-position: 0 -332px;}
+#placesList .item .marker_9 {background-position: 0 -378px;}
+#placesList .item .marker_10 {background-position: 0 -423px;}
+#placesList .item .marker_11 {background-position: 0 -470px;}
+#placesList .item .marker_12 {background-position: 0 -516px;}
+#placesList .item .marker_13 {background-position: 0 -562px;}
+#placesList .item .marker_14 {background-position: 0 -608px;}
+#placesList .item .marker_15 {background-position: 0 -654px;}
+#pagination {margin:10px auto;text-align: center;}
+#pagination a {display:inline-block;margin-right:10px;}
+#pagination .on {font-weight: bold; cursor: default;color:#777;}
+</style>
+
+
+<link rel="stylesheet" href="{% static 'dist_app/jeju.css'%}">
+<h1 id="title"> 오늘 <span id="jeju">한경</span>에는 :) </h1> <br>
+
+<fieldset id="album">
+    <legend id="title"> 한경의 <span> 명소 </span> </legend>
+    <a href="https://map.naver.com/v5/entry/place/17040007?c=14044951.0356113,3940885.0323155,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzExMTZfMTEz%2FMDAxNTEwODIzNTI0NDkx.u0aIwBuuxNyCgS8RzHVTh_qTOl9BgTYlZGVHXjklG7kg.a3OC1y-dmL6JnjMG0C6_5nxJdYiz0L95ZoyLFFRsSkAg.JPEG.nailstan%2FDSC_0406.jpg%23900x601" alt="신창풍차해안도로" title="신창풍차해안도로"></a>
+    <a href="https://map.naver.com/v5/entry/place/1518633268?c=14053689.6490345,3933986.3471912,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220614_281%2F1655193207762rpT9G_JPEG%2FKakaoTalk_20220525_071442839_05.jpg" alt="산양큰엉곶" title="산양큰엉곶"></a>
+    <a href="https://map.naver.com/v5/entry/place/37232778?c=14055092.2078268,3938232.9417787,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20160817_95%2F147141049793136ucl_JPEG%2F__%25281%2529.jpg" alt="환상숲곶자왈공원" title="환상숲곶자왈공원"></a>
+    <a href="https://map.naver.com/v5/entry/place/11661222?c=14055781.6539610,3940156.3062350,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20211229_238%2F1640741272861mtcYp_JPEG%2FKD5A4386.jpg" alt="방림원" title="방림원"></a>
+    <a href="https://map.naver.com/v5/entry/place/13491454?c=14042763.8302562,3936835.7712190,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20150901_206%2F1441045627555G979E_JPEG%2F117059584540811_0.jpg" alt="차귀도" title="차귀도"></a>
+</fieldset>
+
+<br><br>
+<fieldset id="album">
+    <legend id="title"> 한경의 <span> 맛집 </span> </legend>
+    <a href="https://map.naver.com/v5/entry/place/19344844?c=14045131.2729989,3935747.6023533,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20170302_27%2F1488435829315YwGjY_JPEG%2F186252555368153_0.jpeg" alt="한경가든" title="한경가든"></a>
+    <a href="https://map.naver.com/v5/entry/place/1108893848?c=14044103.1373139,3936240.3919302,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210820_191%2F16294571026722URK3_JPEG%2FFXyaj-MqCjMNvqQjG3GF0Y7r.jpg" alt="차귀도놀빛바다" title="차귀도놀빛바다"></a>
+    <a href="https://map.naver.com/v5/entry/place/1672809437?c=14044179.5136165,3936376.2300820,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyMjA1MTJfMjkz%2FMDAxNjUyMjg2MjU1MjM2.MvvxQcZf3k1mDxdTHD542oKmBSGxaam1hCoMA2uh-_sg.HoVhC4v5oFGvZUJNxzS_wi8wn6pAS02UoTuMoio0lHsg.JPEG%2Fupload_1440d6f2ee7516423199fd92af76f6e2.jpg" alt="놀멍놀멍" title="놀멍놀멍"></a>
+    <a href="https://map.naver.com/v5/entry/place/1497728565?c=14044240.3497182,3936278.5005120,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fmyplace-phinf.pstatic.net%2F20210422_171%2F1619103548724utzlu_JPEG%2Fupload_855bade5484b612370337aef2738fafe.jpg" alt="해문달술" title="해문달술"></a>
+    <a href="https://map.naver.com/v5/entry/place/842405543?c=14051095.1924542,3939874.3633863,15,0,0,0,dh"><img id="img" src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fmyplace-phinf.pstatic.net%2F20210114_190%2F1610624260774nKnqu_JPEG%2Fupload_b8a0ec87101cfc9e6419c216ef5ad687.jpeg" alt="크래커스" title="크래커스"></a>
+</fieldset>
+
+
+</head>
+<body>
+
+    <hr/>
+
+    <div>
+        <button id="back" onclick="history.back()"> 뒤로가기 </button>
+    </div>
+
+    <legend id="title"> 위치를 <span> 검색해 보세요! </span> </legend>
+<div class="map_wrap">
+    <div id="map" style="width:100%; height:100%; margin-left: 80px; margin-top: 80px;margin-right: 80px; position:relative;overflow:hidden;"></div>
+
+    <div id="menu_wrap" class="bg_white" style="margin-left: 80px;">
+        <div class="option">
+            <div>
+                <form onsubmit="searchPlaces(); return false;">
+                    키워드 : <input type="text" value="한경 맛집" id="keyword" size="15">
+                    <button type="submit">검색하기</button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <ul id="placesList"></ul>
+        <div id="pagination"></div>
+    </div>
+</div>
+<body>
+	<div id="map" style="width:250px;height:250px;"></div>
+
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=627103604d18d2289930b62ebcc65f7b&libraries=services"></script>
+<script>
+// 마커를 담을 배열입니다
+var markers = [];
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+    mapOption = {
+        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
+
+// 지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption);
+
+// 장소 검색 객체를 생성합니다
+var ps = new kakao.maps.services.Places();
+
+// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+// 키워드로 장소를 검색합니다
+searchPlaces();
+
+// 키워드 검색을 요청하는 함수입니다
+function searchPlaces() {
+
+    var keyword = document.getElementById('keyword').value;
+
+    if (!keyword.replace(/^\s+|\s+$/g, '')) {
+        alert('키워드를 입력해주세요!');
+        return false;
+    }
+
+    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+    ps.keywordSearch( keyword, placesSearchCB);
+}
+
+// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+function placesSearchCB(data, status, pagination) {
+    if (status === kakao.maps.services.Status.OK) {
+
+        // 정상적으로 검색이 완료됐으면
+        // 검색 목록과 마커를 표출합니다
+        displayPlaces(data);
+
+        // 페이지 번호를 표출합니다
+        displayPagination(pagination);
+
+    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+
+        alert('검색 결과가 존재하지 않습니다.');
+        return;
+
+    } else if (status === kakao.maps.services.Status.ERROR) {
+
+        alert('검색 결과 중 오류가 발생했습니다.');
+        return;
+
+    }
+}
+
+// 검색 결과 목록과 마커를 표출하는 함수입니다
+function displayPlaces(places) {
+
+    var listEl = document.getElementById('placesList'),
+    menuEl = document.getElementById('menu_wrap'),
+    fragment = document.createDocumentFragment(),
+    bounds = new kakao.maps.LatLngBounds(),
+    listStr = '';
+
+    // 검색 결과 목록에 추가된 항목들을 제거합니다
+    removeAllChildNods(listEl);
+
+    // 지도에 표시되고 있는 마커를 제거합니다
+    removeMarker();
+
+    for ( var i=0; i<places.length; i++ ) {
+
+        // 마커를 생성하고 지도에 표시합니다
+        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+            marker = addMarker(placePosition, i),
+            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        bounds.extend(placePosition);
+
+        // 마커와 검색결과 항목에 mouseover 했을때
+        // 해당 장소에 인포윈도우에 장소명을 표시합니다
+        // mouseout 했을 때는 인포윈도우를 닫습니다
+        (function(marker, title) {
+            kakao.maps.event.addListener(marker, 'mouseover', function() {
+                displayInfowindow(marker, title);
+            });
+
+            kakao.maps.event.addListener(marker, 'mouseout', function() {
+                infowindow.close();
+            });
+
+            itemEl.onmouseover =  function () {
+                displayInfowindow(marker, title);
+            };
+
+            itemEl.onmouseout =  function () {
+                infowindow.close();
+            };
+        })(marker, places[i].place_name);
+
+        fragment.appendChild(itemEl);
+    }
+
+    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+    listEl.appendChild(fragment);
+    menuEl.scrollTop = 0;
+
+    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+    map.setBounds(bounds);
+}
+
+// 검색결과 항목을 Element로 반환하는 함수입니다
+function getListItem(index, places) {
+
+    var el = document.createElement('li'),
+    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+                '<div class="info">' +
+                '   <h5>' + places.place_name + '</h5>';
+
+    if (places.road_address_name) {
+        itemStr += '    <span>' + places.road_address_name + '</span>' +
+                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
+    } else {
+        itemStr += '    <span>' +  places.address_name  + '</span>';
+    }
+
+      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+                '</div>';
+
+    el.innerHTML = itemStr;
+    el.className = 'item';
+
+    return el;
+}
+
+// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+function addMarker(position, idx, title) {
+    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+        imgOptions =  {
+            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        },
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+            marker = new kakao.maps.Marker({
+            position: position, // 마커의 위치
+            image: markerImage
+        });
+
+    marker.setMap(map); // 지도 위에 마커를 표출합니다
+    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+    return marker;
+}
+
+// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+function removeMarker() {
+    for ( var i = 0; i < markers.length; i++ ) {
+        markers[i].setMap(null);
+    }
+    markers = [];
+}
+
+// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+function displayPagination(pagination) {
+    var paginationEl = document.getElementById('pagination'),
+        fragment = document.createDocumentFragment(),
+        i;
+
+    // 기존에 추가된 페이지번호를 삭제합니다
+    while (paginationEl.hasChildNodes()) {
+        paginationEl.removeChild (paginationEl.lastChild);
+    }
+
+    for (i=1; i<=pagination.last; i++) {
+        var el = document.createElement('a');
+        el.href = "#";
+        el.innerHTML = i;
+
+        if (i===pagination.current) {
+            el.className = 'on';
+        } else {
+            el.onclick = (function(i) {
+                return function() {
+                    pagination.gotoPage(i);
+                }
+            })(i);
+        }
+
+        fragment.appendChild(el);
+    }
+    paginationEl.appendChild(fragment);
+}
+
+// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+// 인포윈도우에 장소명을 표시합니다
+function displayInfowindow(marker, title) {
+    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+}
+
+ // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+function removeAllChildNods(el) {
+    while (el.hasChildNodes()) {
+        el.removeChild (el.lastChild);
+    }
+}
+
+
+</script>
+
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'scripts.js' %}"></script>
+{% endblock %}
