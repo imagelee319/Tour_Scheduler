@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-9&ugw^1#elsl8^q60ch966o99=ro!!f1mj*@&p=jie$&!(*j!x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["ec2-54-180-104-109.ap-northeast-2.compute.amazonaws.com"]
 
 
 # Application definition
@@ -85,8 +85,14 @@ WSGI_APPLICATION = 'tour.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'jejutrip',
+        'USER': 'image',
+        'PASSWORD: '19970319',
+        'HOST': 'database-1.cxxh88gutadc.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
     }
 }
 
